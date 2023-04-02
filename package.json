@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "nodemon": "^2.0.22"
+  },
+  "name": "gigfinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AllenPayne17/GigFinder-API.git"
+  },
+  "author": "allen spayne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AllenPayne17/GigFinder-API/issues"
+  },
+  "homepage": "https://github.com/AllenPayne17/GigFinder-API#readme"
+}
