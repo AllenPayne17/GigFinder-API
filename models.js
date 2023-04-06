@@ -114,7 +114,9 @@ const jobPostSchema = new mongoose.Schema({
         type: Array,
         required: true,
         trim: true
-    }
+    },
+}, {
+    timestamps: true
 });
 
 const businessOwnerAccountSchema = new mongoose.Schema({
