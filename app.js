@@ -70,6 +70,13 @@ app.post('/api/business/profile/:id/jobpost', async (req, res) => {
     res.send(profile);
 });
 
+// Retrieve all job posts
+app.get('/api/job-posts', async (req, res) => {
+    const profiles = await BusinessOwnerProfile.find();
+    const jobPosts = profiles.flatMap(profile => profile.job_posts);
+    res.send(jobPosts);
+});
+
 app.delete('/api/business/profile/:id', async (req, res) => {
     const profile = await BusinessOwnerProfile.findByIdAndDelete(req.params.id);
     if (!profile) {
