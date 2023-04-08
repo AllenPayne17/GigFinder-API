@@ -85,6 +85,29 @@ app.delete('/api/business/profile/:id', async (req, res) => {
     res.send(profile);
 });
 
+// Authenticate user and return profile information
+app.post('/api/authenticate', async (req, res) => {
+    const { email, password } = req.body;
+
+    // Check StudentAccount collection
+    const studentAccount = await StudentAccount.findOne({ email, password });
+    if (studentAccount) {
+        const studentProfile = await StudentProfile.findOne({ userId: studentAccount._id });
+        return res.send({ accountType: 'student', profile: studentProfile });
+    }
+
+    // Check BusinessOwnerAccount collection
+    const businessOwnerAccount = await BusinessOwnerAccount.findOne({ email, password });
+    if (businessOwnerAccount) {
+        const businessOwnerProfile = await BusinessOwnerProfile.findOne({ userId: businessOwnerAccount._id });
+        return res.send({ accountType: 'businessOwner', profile: businessOwnerProfile });
+    }
+
+    // No matching account found
+    res.status(401).send({ error: 'Invalid email or password' });
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
