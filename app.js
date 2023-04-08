@@ -86,7 +86,7 @@ app.delete('/api/business/profile/:id', async (req, res) => {
 });
 
 // Check if user exists and retrieve their information
-app.post('/api/user/login', async (req, res) => {
+app.post('/api/authenticate', async (req, res) => {
     const { email, password } = req.body;
 
     let profile = await StudentProfile.findOne({ 'account.email': email, 'account.password': password });
