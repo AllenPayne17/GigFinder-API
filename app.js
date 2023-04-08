@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const { StudentProfile, BusinessOwnerProfile } = require('./models');
+const { StudentProfile, BusinessOwnerProfile} = require('./models');
 
 const app = express();
 app.use(bodyParser.json());
@@ -85,26 +85,21 @@ app.delete('/api/business/profile/:id', async (req, res) => {
     res.send(profile);
 });
 
-// Authenticate user and return profile information
-app.post('/api/authenticate', async (req, res) => {
+// Check if user exists and retrieve their information
+app.post('/api/user/login', async (req, res) => {
     const { email, password } = req.body;
 
-    // Check StudentAccount collection
-    const studentAccount = await StudentAccount.findOne({ email, password });
-    if (studentAccount) {
-        const studentProfile = await StudentProfile.findOne({ userId: studentAccount._id });
-        return res.send({ accountType: 'student', profile: studentProfile });
+    let profile = await StudentProfile.findOne({ 'account.email': email, 'account.password': password });
+    if (profile) {
+        return res.send({ accountType: 'Student', profile });
     }
 
-    // Check BusinessOwnerAccount collection
-    const businessOwnerAccount = await BusinessOwnerAccount.findOne({ email, password });
-    if (businessOwnerAccount) {
-        const businessOwnerProfile = await BusinessOwnerProfile.findOne({ userId: businessOwnerAccount._id });
-        return res.send({ accountType: 'businessOwner', profile: businessOwnerProfile });
+    profile = await BusinessOwnerProfile.findOne({ 'account.email': email, 'account.password': password });
+    if (profile) {
+        return res.send({ accountType: 'BusinessOwner', profile });
     }
 
-    // No matching account found
-    res.status(401).send({ error: 'Invalid email or password' });
+    res.status(404).send({ message: 'User not found' });
 });
 
 
